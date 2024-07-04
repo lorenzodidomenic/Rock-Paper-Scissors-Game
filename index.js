@@ -67,10 +67,81 @@ server.on("connection", (socket)=>{
         }
       })
 
+      socket.on("RandomLogin",(message)=>{
+        player = new Player(message.username,socket.id)
+        robot = new Player("ROBOT","0000");
+        this.match = new Match(player,robot)
+        console.log("Partita iniziata ", this.match.player1.nickname,this.match.player2.nickname)
+      })
+
+
+      socket.on("randomAction",(message)=>{
+        this.match.mossaPlayer1 = message.move
+
+
+        random = Math.floor(Math.random() * 3)
+        mossa_robot = null;
+        console.log(random)
+        if(random == 0){
+            console.log("aa")
+            mossa_robot = "CARTA"
+        }else if(random == 1){
+            console.log("aa")
+            mossa_robot ="FORBICE"
+        }else if(random == 2){
+            console.log("aa")
+            mossa_robot = "SASSO"
+        }
+
+        console.log(mossa_robot);
+        server.to(this.match.player1.socket_id).emit("againstMove",{move: mossa_robot})
+
+        if((this.match.mossaPlayer1!=null)&&(this.match.mossaPlayer2!=null)){
+            if((this.match.mossaPlayer1 == "SASSO") && (this.match.mossaPlayer2=="CARTA")){
+                this.match.winplayer2++;
+                this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else  if((this.match.mossaPlayer1 == "SASSO") && (this.match.mossaPlayer2=="FORBICE")){
+                this.match.winplayer1++;
+            this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else if((this.match.mossaPlayer1 == "CARTA") && (this.match.mossaPlayer2=="FORBICE")){
+                this.match.winplayer2++;
+                this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else  if((this.match.mossaPlayer1 == "CARTA") && (this.match.mossaPlayer2=="SASSO")){
+                this.match.winplayer1++;
+            this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else if((this.match.mossaPlayer1 == "FORBICE") && (this.match.mossaPlayer2=="CARTA")){
+                this.match.winplayer1++;
+                this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else if((this.match.mossaPlayer1 == "FORBICE") && (this.match.mossaPlayer2=="SASSO")){
+                this.match.winplayer2++;
+                this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }else{
+                this.match.mossaPlayer1 = null;
+                this.match.mossaPlayer2 = null;
+            }
+        }
+
+
+        if((this.match.winplayer1 >= (this.match.winplayer2+2)) && (this.match.winplayer1>2)){
+            server.to(this.match.player1.socket_id).emit("win_partita")
+            server.to(this.match.player2.socket_id).emit("lose_partita")
+        }else if((this.match.winplayer2 >= (this.match.winplayer1+2)) && (this.match.winplayer2>2)){
+            server.to(this.match.player2.socket_id).emit("win_partita")
+            server.to(this.match.player1.socket_id).emit("lose_partita")
+        }
+
+      })
+
 
       socket.on("action",(message)=>{
         
-
+ 
         
         if(message.username == this.match.player1.nickname){
             this.match.mossaPlayer1 = message.move
