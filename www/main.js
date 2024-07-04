@@ -3,6 +3,7 @@ const socket = io();
 
 loginBtn = document.getElementById("loginBtn")
 randomBtn = document.getElementById("randomBtn")
+randomMatch = false;
 
 usernameText = document.getElementById("username_text")
 loginDiv = document.getElementById("signin")
@@ -60,19 +61,21 @@ this.randomBtn.addEventListener("click",()=>{
     loginDiv.style.display = "none"
     gameDiv.style.display = "block"
     player1header.innerHTML = this.usernameText.value
-    player2header.innerHTML = "IN ATTESA..."
+    player2header.innerHTML = "ROBOT "
 
     player2move.style.opacity = "0%"
     player2btn.style.opacity = "0%"
 
 
 
-    socket.emit("login",{username:  this.usernameText.value})
+    socket.emit("RandomLogin",{username:  this.usernameText.value})
+    randomMatch = true;
 })
 
 
 socket.on("beginMatch",(message)=>{
 
+    if(!randomMatch){
     if(message[0].nickname == this.usernameText.value){
     player1header.innerHTML = message[0].nickname
     player2header.innerHTML = message[1].nickname
@@ -80,7 +83,9 @@ socket.on("beginMatch",(message)=>{
         player1header.innerHTML = message[1].nickname
     player2header.innerHTML = message[0].nickname
     }
-
+    }else{
+        player1header.innerHTML = username
+    }
 
 })
 
@@ -93,7 +98,10 @@ player1btn.addEventListener("click",()=>{
     this.miamossa = this.player1move.value;
     this.numero_mosse_mie++;
 
+    if(!randomMatch)
     socket.emit("action",{username: this.usernameText.value, move: this.miamossa })
+    else
+    socket.emit("randomAction",{username: this.usernameText.value, move: this.miamossa },)
 
     div_move = document.createElement("div")
     div_move.innreHTML = "MOSSA: &#"+array_mosse[this.miamossa]
@@ -106,7 +114,9 @@ player1btn.addEventListener("click",()=>{
    
     el = document.getElementsByClassName("move_player2")
     el[this.numero_mosse_sue].style.display= "block"
+    
   
+    if(!randomMatch){
     if(this.mossacontro != null){
         //nel server lo faccio pure per vedere chi ha vinto la partita
         if((this.miamossa == "SASSO") && (this.mossacontro=="CARTA")){
@@ -117,18 +127,11 @@ player1btn.addEventListener("click",()=>{
             this.miamossa = null;
             this.mossacontro = null;
         }
-        else  if((this.miamossa == "SASSO") && (this.mossacontro=="CARTA")){
-            vittorePlayer2++;
-            this.wp2.innerHTML = "WIN:  "+vittorePlayer2
-            sconfittePlayer1++;
-            this.lp1.innerHTML = "LOSE:  "+sconfittePlayer1
-            this.miamossa = null;
-            this.mossacontro = null;
-        }else  if((this.miamossa == "SASSO") && (this.mossacontro=="FORBICE")){
+        else  if((this.miamossa == "SASSO") && (this.mossacontro=="FORBICE")){
             vittorePlayer1++;
             this.wp1.innerHTML = "WIN:  "+vittorePlayer1
             sconfittePlayer2++;
-        this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
+            this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
             this.miamossa = null;
             this.mossacontro = null;
         }else if((this.miamossa == "CARTA") && (this.mossacontro=="FORBICE")){
@@ -142,14 +145,14 @@ player1btn.addEventListener("click",()=>{
             vittorePlayer1++;
             this.wp1.innerHTML = "WIN:  "+vittorePlayer1
             sconfittePlayer2++;
-        this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
+             this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
             this.miamossa = null;
             this.mossacontro = null;
         }else if((this.miamossa == "FORBICE") && (this.mossacontro=="CARTA")){
             vittorePlayer1++;
             this.wp1.innerHTML = "WIN:  "+ vittorePlayer1
             sconfittePlayer2++;
-        this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
+            this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
             this.miamossa = null;
             this.mossacontro = null;
         }else if((this.miamossa == "FORBICE") && (this.mossacontro=="SASSO")){
@@ -164,7 +167,7 @@ player1btn.addEventListener("click",()=>{
             this.mossacontro = null;
         }
     }
-
+    }
     
 })
 
@@ -174,6 +177,8 @@ socket.on("againstMove",(message)=>{
     
     this.numero_mosse_sue++;
     this.mossacontro = message.move;
+    console.log("mossa contro" +mossacontro);
+
     console.log(this.numero_mosse_mie,this.numero_mosse_sue)
     
 
@@ -184,31 +189,22 @@ socket.on("againstMove",(message)=>{
     this.against_moves[0].innerHTML = this.against_moves[0].innerHTML +  '<div id="move_player2" class="move_player2"> MOSSA: &#'+array_mosse[message.move]+ '</div>'
 
     if(this.miamossa == null && (this.numero_mosse_mie!=this.numero_mosse_sue)){
-        console.log(this.numero_mosse)
         el = document.getElementsByClassName("move_player2")
         el[this.numero_mosse_sue].style.display= "none"
     }else{
-         el = document.getElementByClassName("move_player2")
+         el = document.getElementsByClassName("move_player2")
         el[this.numero_mosse_sue].style.display= "block"
     }
 
 
     //da qui mi calcolo se ho vinto oppure no
 
-    console.log(this.miamossa)
-    console.log(this.mossacontro)
+    console.log(vittorePlayer1," ",sconfittePlayer1)
+    console.log(vittorePlayer2," ",sconfittePlayer2)
 
     if(this.miamossa != null){
     //nel server lo faccio pure per vedere chi ha vinto la partita
     if((this.miamossa == "SASSO") && (this.mossacontro=="CARTA")){
-        vittorePlayer2++;
-        this.wp2.innerHTML = "WIN:  "+vittorePlayer2
-        sconfittePlayer1++;
-            this.lp1.innerHTML = "LOSE:  "+sconfittePlayer1
-        this.miamossa = null;
-        this.mossacontro = null;
-    }
-    else  if((this.miamossa == "SASSO") && (this.mossacontro=="CARTA")){
         vittorePlayer2++;
         this.wp2.innerHTML = "WIN:  "+vittorePlayer2
         sconfittePlayer1++;
@@ -226,9 +222,8 @@ socket.on("againstMove",(message)=>{
         vittorePlayer2++;
         this.wp2.innerHTML = "WIN:  "+vittorePlayer2
         sconfittePlayer1++;
-            this.lp2.innerHTML = "LOSE:  "+sconfittePlayer1
-            sconfittePlayer2++;
-        this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
+        this.lp1.innerHTML = "LOSE:  "+sconfittePlayer1
+        
         this.miamossa = null;
             this.mossacontro = null;
     }else  if((this.miamossa == "CARTA") && (this.mossacontro=="SASSO")){
@@ -237,7 +232,7 @@ socket.on("againstMove",(message)=>{
         sconfittePlayer2++;
         this.lp2.innerHTML = "LOSE:  "+sconfittePlayer2
         this.miamossa = null;
-            this.mossacontro = null;
+        this.mossacontro = null;
     }else if((this.miamossa == "FORBICE") && (this.mossacontro=="CARTA")){
         vittorePlayer1++;
         this.wp1.innerHTML = "WIN:  "+vittorePlayer1
@@ -249,7 +244,7 @@ socket.on("againstMove",(message)=>{
         vittorePlayer2++;
         this.wp2.innerHTML = "WIN:  "+vittorePlayer2
         sconfittePlayer1++;
-            this.lp1.innerHTML = "LOSE:  "+sconfittePlayer1
+        this.lp1.innerHTML = "LOSE:  "+sconfittePlayer1
         this.miamossa = null;
             this.mossacontro = null;
     }else{

@@ -197,6 +197,7 @@ input[type="submit"]:active
   border-radius: 4px;
   box-shadow: 0 15px 35px rgba(0,0,0,9);
   display: none;
+  overflow-y: auto;
 }
 
 span[id="player1"]{
@@ -224,6 +225,7 @@ span[id="player2"]{
   
   background-color: #000;
   color: white;
+  overflow-y: scroll;
 
 }
 
