@@ -1,0 +1,99 @@
+<!doctype html>
+
+<html lang="en"> 
+
+ <head> 
+
+  <meta charset="UTF-8"> 
+
+  <title>CodePen - Animated Login Form using Html &amp; CSS Only</title> 
+
+  <link rel="stylesheet" href="./style.css"> 
+
+ </head> 
+
+ <body> <!-- partial:index.partial.html --> 
+
+  <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+
+   <div class="signin" id="signin"> 
+
+    <div class="content"> 
+
+     <h2>Sign In</h2> 
+
+     <div class="form"> 
+
+      <div class="inputBox"> 
+
+       <input type="text" id="username_text" required> <i>Username</i> 
+
+      </div> 
+
+      <div class="inputBox"> 
+
+       <input type="submit" id="loginBtn" value="REAL MATCH"> 
+       
+       <input type="submit" style="margin-top:10px" id="randomBtn" value="RANDOM MATCH"> 
+      </div> 
+
+     </div> 
+
+    </div> 
+
+   </div> 
+
+
+   <div id="gamediv">
+
+    <span id="player1">
+      
+       
+
+       <div class="inputGame">
+        <h3 id="player1header" style="color:blueviolet;padding-bottom: 20px">PLAYER1</h3>
+        <span id="wp1">WIN: 0 </span> <span id="losep1">LOSE: 0</span>
+       <select id="player1move" name="Inserisci mossa">
+        <option name="mossa" value="CARTA">&#128196</option>
+        <option name="mossa" value="FORBICE">&#9988</option>
+        <option name="mossa" value="SASSO">&#129521</option>
+        </select> 
+       <button id="player1btn">LANCIA</button>
+       </div>
+
+       <br><br><br>
+       <div class="my_moves">
+       </div>
+    </span>
+
+    <span id="player2">
+
+       
+
+        <div class="inputGame">
+            <h3 id="player2header" style="color:coral;padding-bottom: 20px">PLAYER2</h3>
+            <span id="wp2">WIN: 0 </span> <span id="losep2">LOSE: 0 </span>
+        <select id="player2move"  name="Inserisci mossa">
+            <option name="mossa" value="CARTA">CARTA</option>
+            <option name="mossa" value="FORBICE">FORBICE</option>
+            <option name="mossa" value="SASSO">SASSO</option>
+            </select> 
+           <button id="player2btn">LANCIA</button >
+        </div>
+
+   <br><br><br>
+        <div class="against_moves">
+        </div>
+    </span>
+   </div>
+  </section> <!-- partial --> 
+
+
+
+
+ </body>
+
+ <script src="/socket.io/socket.io.js"></script>
+ <script src="main.js"></script>
+
+</html>
