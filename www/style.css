@@ -221,16 +221,28 @@ span[id="player2"]{
   text-align: center;
 }
 
-#player2move,#player1move{
+#player1move{
   
   background-color: #000;
   color: white;
   overflow-y: scroll;
+  display: none;
 
 }
 
-#player2btn,#player1btn{
+#player2move{
+  background-color: #000;
+  color: white;
+  overflow-y: scroll;
+}
+
+#player2btn{
   background-color: antiquewhite;
+}
+
+#player1btn{
+  background-color: antiquewhite;
+  display: none;
 }
 
 span[id="wp1"],span[id="wp2"]{

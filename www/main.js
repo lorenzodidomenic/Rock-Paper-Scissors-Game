@@ -75,6 +75,8 @@ this.randomBtn.addEventListener("click",()=>{
 
 socket.on("beginMatch",(message)=>{
 
+    this.player1move.style.display = "inline"
+    this.player1btn.style.display = "inline"
     if(!randomMatch){
     if(message[0].nickname == this.usernameText.value){
     player1header.innerHTML = message[0].nickname
@@ -94,6 +96,9 @@ array_mosse = {"CARTA" : 128196, "FORBICE" : 9988 , "SASSO":129521}
 
 player1btn.addEventListener("click",()=>{
 
+
+    this.player1move.style.display = "none"
+    this.player1btn.style.display = "none"
 
     this.miamossa = this.player1move.value;
     this.numero_mosse_mie++;
@@ -175,6 +180,9 @@ numero_mosse_mie = -1;
 numero_mosse_sue = -1;
 socket.on("againstMove",(message)=>{
     
+     this.player1move.style.display = "inline"
+    this.player1btn.style.display = "inline"
+
     this.numero_mosse_sue++;
     this.mossacontro = message.move;
     console.log("mossa contro" +mossacontro);
@@ -198,9 +206,6 @@ socket.on("againstMove",(message)=>{
 
 
     //da qui mi calcolo se ho vinto oppure no
-
-    console.log(vittorePlayer1," ",sconfittePlayer1)
-    console.log(vittorePlayer2," ",sconfittePlayer2)
 
     if(this.miamossa != null){
     //nel server lo faccio pure per vedere chi ha vinto la partita
